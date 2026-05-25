@@ -12,13 +12,16 @@
   --muted2: #3a3f4a;
   --blue: #1b8cff;
   --border: rgba(255, 255, 255, 0.08);
+  --font-sans: "DM Sans", sans-serif;
+  --font-mono: "DM Mono", monospace;
 }
 html,
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: "Outfit", sans-serif;
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
   min-height: 100vh;
   overflow-x: hidden;
 }
@@ -36,9 +39,9 @@ body::before {
 .wrap {
   position: relative;
   z-index: 1;
-  max-width: 430px;
+  width: min(100%, 430px);
   margin: 0 auto;
-  padding: 40px 22px 56px;
+  padding: 38px clamp(18px, 5vw, 24px) 56px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -46,8 +49,8 @@ body::before {
 
 /* ── AVATAR ── */
 .avatar-outer {
-  width: 110px;
-  height: 110px;
+  width: 112px;
+  height: 112px;
   border-radius: 50%;
   padding: 2.5px;
   margin-bottom: 16px;
@@ -73,17 +76,15 @@ body::before {
   font-size: 36px;
   font-weight: 700;
   color: var(--blue);
-  letter-spacing: -1px;
+  letter-spacing: 0;
 }
 /* photo placeholder — swap src when you have the photo */
 .avatar-inner img {
   width: 100%;
   height: 100%;
-  scale: 200%;
+  scale: 1.85;
   object-fit: cover;
   object-position: center 10%;
-  
-  ;
 }
 
 /* ── USERNAME ── */
@@ -101,9 +102,9 @@ body::before {
   animation-fill-mode: both;
 }
 .username {
-  font-size: 15px;
-  font-weight: 500;
-  letter-spacing: 0.01em;
+  font-size: 15.5px;
+  font-weight: 600;
+  letter-spacing: 0;
 }
 .badge {
   width: 18px;
@@ -123,10 +124,10 @@ body::before {
   animation-fill-mode: both;
 }
 .tag {
-  font-family: "JetBrains Mono", monospace;
-  font-size: 9px;
+  font-family: var(--font-mono);
+  font-size: 10px;
   font-weight: 500;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   padding: 4px 12px;
   border-radius: 100px;
@@ -154,9 +155,9 @@ body::before {
   animation-fill-mode: both;
 }
 .divider span {
-  font-family: "JetBrains Mono", monospace;
-  font-size: 10px;
-  letter-spacing: 0.14em;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
   white-space: nowrap;
@@ -172,7 +173,7 @@ body::before {
 /* ── STOCKHUB CARD ── */
 .sh-card {
   width: 100%;
-  border-radius: 18px;
+  border-radius: 16px;
   overflow: hidden;
   border: 1px solid rgba(27, 140, 255, 0.22);
   box-shadow:
@@ -205,7 +206,7 @@ body::before {
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 60px 20px 20px;
+  padding: 58px 18px 18px;
   background: linear-gradient(
     to top,
     rgba(6, 9, 20, 0.95) 0%,
@@ -217,17 +218,17 @@ body::before {
   align-items: flex-end;
 }
 .sh-btn {
-  padding: 10px 22px;
+  padding: 11px 20px;
   border-radius: 100px;
   border: 1px solid rgba(255, 255, 255, 0.55);
   background: rgba(10, 12, 18, 0.5);
   backdrop-filter: blur(8px);
   color: #fff;
-  font-family: "Outfit", sans-serif;
-  font-size: 13px;
-  font-weight: 400;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  letter-spacing: 0.03em;
+  letter-spacing: 0;
   text-decoration: none;
   transition:
     background 0.15s,
@@ -249,11 +250,12 @@ body::before {
   animation-fill-mode: both;
 }
 .bio-block p {
-  font-size: 14px;
-  line-height: 1.75;
-  color: rgb(255, 255, 255);
-  text-align: justify;
-  margin-bottom: 14px;
+  font-size: 15.75px;
+  font-weight: 400;
+  line-height: 1.68;
+  color: rgba(255, 255, 255, 0.88);
+  text-align: left;
+  margin-bottom: 16px;
 }
 .bio-block p:last-child {
   margin-bottom: 0;
@@ -272,10 +274,11 @@ body::before {
   animation-fill-mode: both;
 }
 .sc {
-  flex: 1;
+  flex: 1 1 0;
+  min-width: 0;
   width: 100%;
-  height: 50px;
-  border-radius: 15px;
+  height: 52px;
+  border-radius: 14px;
   border: 1px solid var(--border);
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(8px);
@@ -290,11 +293,7 @@ body::before {
     border-color 0.18s ease;
 }
 .sc:hover {
-  transform: scale(1.08);
-}
-.sc svg {
-  width: 30px;
-  height: 30px;
+  transform: translateY(-1px);
 }
 
 .sc-ig:hover {
@@ -310,40 +309,27 @@ body::before {
   border-color: rgba(27, 140, 255, 0.4);
 }
 
-/* Instagram gradient icon */
-.ig-icon {
-  width: 20%;
-  height: 20%;
+.social-icon {
+  width: 25px;
+  height: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* tiktok gradient icon */
-.ig-ttk {
-  width: 25%;
-  height: 25%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* linkedin gradient icon */
-.ig-link {
-  width: 20%;
-  height: 20%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  
+.social-icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 /* ── FOOTER ── */
 .footer {
   margin-top: 28px;
-  font-family: "JetBrains Mono", monospace;
+  font-family: var(--font-mono);
   font-size: 10px;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   color: rgba(255, 255, 255, 0.18);
   animation: fadeUp 0.5s 0.24s ease both;
   opacity: 0;
@@ -363,4 +349,39 @@ body::before {
 }
 .avatar-outer {
   animation-fill-mode: both;
+}
+
+@media (max-width: 380px) {
+  .wrap {
+    padding-top: 32px;
+  }
+
+  .avatar-outer {
+    width: 104px;
+    height: 104px;
+  }
+
+  .tags {
+    gap: 7px;
+    margin-bottom: 24px;
+  }
+
+  .tag {
+    font-size: 9.5px;
+    padding-inline: 10px;
+  }
+
+  .bio-block p {
+    font-size: 15.25px;
+    line-height: 1.64;
+  }
+
+  .sc {
+    height: 50px;
+  }
+
+  .social-icon {
+    width: 23px;
+    height: 23px;
+  }
 }

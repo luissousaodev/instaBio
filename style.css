@@ -14,6 +14,10 @@
   --border: rgba(255, 255, 255, 0.08);
   --font-sans: "DM Sans", sans-serif;
   --font-mono: "DM Mono", monospace;
+  --scroll-rise: 0px;
+  --scroll-rise-soft: 0px;
+  --scroll-sink: 0px;
+  --scroll-sink-soft: 0px;
 }
 html,
 body {
@@ -36,6 +40,71 @@ body::before {
   opacity: 0.5;
 }
 
+.floating-tools {
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  z-index: -1;
+  width: 238px;
+  height: 74px;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.float-icon {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  padding: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.035);
+  backdrop-filter: blur(10px);
+  box-shadow:
+    0 14px 34px rgba(0, 0, 0, 0.4),
+    0 0 28px rgba(27, 140, 255, 0.08);
+  opacity: 0.92;
+  animation: topFloatLoop var(--duration) ease-in-out infinite alternate;
+  animation-delay: var(--delay, 0s);
+  transform:
+    translate3d(
+      0,
+      var(--scroll-shift),
+      0
+    )
+    rotate(var(--tilt));
+  will-change: transform;
+}
+
+.float-icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.float-icon-ae {
+  --icon-size: 52px;
+  --scroll-shift: var(--scroll-rise-soft);
+  --tilt: -9deg;
+  --duration: 5.8s;
+  --delay: 0s;
+  top: 8px;
+  left: 4px;
+}
+
+.float-icon-pr {
+  --icon-size: 52px;
+  --scroll-shift: var(--scroll-sink-soft);
+  --tilt: 9deg;
+  --duration: 6.4s;
+  --delay: -1.8s;
+  top: 8px;
+  right: 4px;
+}
+
 .wrap {
   position: relative;
   z-index: 1;
@@ -49,6 +118,8 @@ body::before {
 
 /* ── AVATAR ── */
 .avatar-outer {
+  position: relative;
+  z-index: 2;
   width: 112px;
   height: 112px;
   border-radius: 50%;
@@ -347,8 +418,46 @@ body::before {
     transform: translateY(0);
   }
 }
+
+@keyframes topFloatLoop {
+  from {
+    translate: -2px -4px;
+    scale: 0.98;
+  }
+  to {
+    translate: 3px 5px;
+    scale: 1.02;
+  }
+}
+
 .avatar-outer {
   animation-fill-mode: both;
+}
+
+@media (max-width: 520px) {
+  .floating-tools {
+    top: 24px;
+    width: 210px;
+    height: 70px;
+  }
+
+  .float-icon {
+    padding: 8px;
+    border-radius: 13px;
+  }
+
+  .float-icon-ae,
+  .float-icon-pr {
+    --icon-size: 46px;
+  }
+
+  .float-icon-ae {
+    left: 0;
+  }
+
+  .float-icon-pr {
+    right: 0;
+  }
 }
 
 @media (max-width: 380px) {
@@ -367,7 +476,7 @@ body::before {
   }
 
   .tag {
-    font-size: 9.5px;
+    font-size: 10px;
     padding-inline: 10px;
   }
 
@@ -383,5 +492,24 @@ body::before {
   .social-icon {
     width: 23px;
     height: 23px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .float-icon,
+  .float-icon img,
+  .avatar-outer,
+  .username-row,
+  .tags,
+  .divider,
+  .sh-card,
+  .bio-block,
+  .social-row,
+  .footer {
+    animation: none;
+  }
+
+  .float-icon {
+    transform: rotate(var(--tilt));
   }
 }
